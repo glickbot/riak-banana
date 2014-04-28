@@ -1,0 +1,9 @@
+*.lock
+files/*
+puppet/modules/file_concat/*
+puppet/modules/inifile/*
+puppet/modules/limits/*
+puppet/modules/logstash/*
+puppet/modules/stdlib/
+.vagrant/*
+.tmp/*
