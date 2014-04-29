@@ -36,7 +36,8 @@ class riak::config inherits riak {
       path => $config,
       section => '',
       setting => $name,
-      value => $value
+      value => $value,
+      notify => Service['riak']
   	}
   }
 
