@@ -4,6 +4,7 @@ class profile::base (
 ){
 	include limits
 	include stdlib
+	class { '::oracle_java': }
 	user { 'puppet':
 		ensure => present,
 		system => true
