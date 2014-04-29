@@ -18,7 +18,9 @@ requires: puppet 3, https://github.com/rodjek/librarian-puppet, vagrant
 
 Right now only works on ubuntu
 
+```
 git clone https://github.com/glickbot/riak-banana
 cd riak-banana
 librarian-puppet install
 vagrant up
+```
