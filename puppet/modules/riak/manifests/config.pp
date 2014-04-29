@@ -13,11 +13,17 @@ class riak::config inherits riak {
       Group['riak']
     ]
   }
+
   limits::fragment {
-    "riak/soft/nofile":
-      value => "65565";
-    "riak/hard/nofile":
-      value => "65565";
+    "*/soft/nofile":
+      value => "65535";
+    "*/hard/nofile":
+      value => "65535";
+  }
+
+  file_line { 'pam-limits':
+    path => '/etc/pam.d/common-session',
+    line => 'session required pam_limits.so'
   }
 
   define param(
