@@ -29,4 +29,10 @@ class profile::base (
        manage_repo => true,
        repo_version => '1.4'
      }
+
+     class { '::logstash_contrib': }
+
+     logstash::configfile { 'logstash-riak':
+       content => template('profile/logstash-riak.erb')
+     }
 }
