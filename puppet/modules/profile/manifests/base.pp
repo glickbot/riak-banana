@@ -24,4 +24,9 @@ class profile::base (
      class { '::riakbanana':
 
      }
+
+     class { '::logstash':
+       manage_repo => true,
+       repo_version => '1.4'
+     }
 }
