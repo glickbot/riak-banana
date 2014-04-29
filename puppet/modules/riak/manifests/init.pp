@@ -14,6 +14,8 @@ class riak (
 
 ) inherits riak::params {
 
+	require oracle_java
+
     anchor { 'riak::begin': } ->
     class { '::riak::install': } ->
     class { '::riak::config': } ~>

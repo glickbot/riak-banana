@@ -21,4 +21,7 @@ class profile::base (
      	  'listener.protobuf.all' => { value => '0.0.0.0:8087' }
      	}
      }
+     class { '::riakbanana':
+
+     }
 }
