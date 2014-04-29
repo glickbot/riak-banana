@@ -11,10 +11,17 @@ class logstash_contrib::install inherits logstash_contrib {
 
 #tar -xzf /vagrant/files/source/logstash-contrib-1.4.0.tar.gz  --strip-components 2 logstash-contrib-1.4.0/lib/logstash
 
-  exec { 'extract logstash_contrib':
+  exec { 'install logstash_contrib plugins':
     command => "tar -xzf ${staging_package} --strip-components 2 logstash-contrib-${logstash_version}/lib/logstash",
     cwd => "${plugin_dir}",
     creates => "${plugin_dir}/logstash/outputs/riak.rb",
+    refreshonly => true
+  } ~>
+
+  exec { 'install logstash_contrib libs':
+    command => "tar -xzf ${staging_package} --strip-components 1",
+    cwd => "${logstash_dir}",
+    creates => "${logstash_dir}/lib/logstash/outputs/riak.rb",
     refreshonly => true
   } ~>
 
