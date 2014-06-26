@@ -6,11 +6,13 @@ Riak2.0 + LucidWorks/banana
 #### Notes
 The goal is to hook in LucidWorks/banana into Riak2.0's solr interface, use Riak to store dashboards, etc, and riak to submit log data.
 
-Currently Non-Functional
+Currently Semi-Functional
 
-Installs and configures Riak2.0, sets up default search index for bucket 'riakbanana'
+Installs and configures Riak2.0, sets up default search index for bucket 'logstash_logs'
+
 Installs and configures Logstash + Logstash contribs, configures riak logstash plugin
-Banana isn't yet working with the current configuration.
+
+Installs banana
 
 #### Usage:
 
@@ -24,3 +26,7 @@ cd riak-banana
 librarian-puppet install
 vagrant up
 ```
+
+Navigate to ```http://${hostname}:8093/internal_solr/banana/src/index.html```
+
+Use ```http://${hostname}:8093/internal_solr``` for solr webapp
