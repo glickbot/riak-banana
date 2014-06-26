@@ -12,5 +12,12 @@ class riak::install inherits riak {
 		name => $package_name,
 		source => $package_real_source,
 		provider => $package_real_provider,
+	} ~>
+
+	exec { "fix beta7":
+		command => "patch -p0 < /vagrant/files/b7-patch && touch /tmp/b7-patched",
+		creates => "/tmp/b7-patched",
+		path => ['/usr/local/bin','/usr/bin', '/bin','/usr/local/sbin','/usr/sbin','/sbin'],
+	#	after => Package['riak']
 	}
 }

@@ -16,9 +16,9 @@ class riak::config inherits riak {
 
   limits::fragment {
     "*/soft/nofile":
-      value => "65535";
+      value => "65536";
     "*/hard/nofile":
-      value => "65535";
+      value => "65536";
   }
 
   file_line { 'pam-limits':
