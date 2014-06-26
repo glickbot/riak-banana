@@ -11,7 +11,7 @@ class riakbanana::install inherits riakbanana {
     command => "git clone https://github.com/LucidWorks/banana.git",
     cwd => "${solr_webapp_dir}",
     creates => "${solr_webapp_dir}/banana",
-    requires => Package['git'],
+    require => Package['git'],
     notify => File['banana dashboard'],
   }
 
@@ -21,15 +21,24 @@ class riakbanana::install inherits riakbanana {
     ensure => present
   }
 
+  file { 'rsyslog config':
+    path => "/etc/rsyslog.d/99-logstash.conf",
+    content => template("riakbanana/99-logstash.conf.erb"),
+    ensure => present,
+    notify => Service['rsyslog'],
+  }
+
+  service { 'rsyslog': }
+
   exec { 'install schema':
     command => "curl -XPUT -i '${riak_url}/search/schema/${index}' -H 'content-type: application/xml' --data-binary @/vagrant/files/logstash_logs.xml",
     unless => "curl '${riak_url}/search/schema/${index}' -f",
   }
 
   exec { 'install index':
-    command => "curl -XPUT -i '${riak_url}/search/index/${index}' -H 'content-type: application/xml' --data-binary @/vagrant/files/logstash_logs.xml",
+    command => "curl -XPUT -i '${riak_url}/search/index/${index}' -H 'content-type: application/json' -d '{\"schema\":\"${index}\"}'",
     unless => "curl '${riak_url}/search/index/${index}' -f",
-    requires => Exec['install schema'],
+    require => Exec['install schema'],
     notify => Exec['configure bucket']
     #notify => Exec['create bucket-type']
   }
@@ -48,7 +57,7 @@ class riakbanana::install inherits riakbanana {
   #}
 
   exec { 'configure bucket':
-    command => "curl -i -H 'content-type: application/json' -X PUT '${riak_url}/buckets/${index}/props' -d '{\"props:\":{\"search_index\":\"${index}\"}}'",
+    command => "curl -i -H 'content-type: application/json' -XPUT '${riak_url}/buckets/${index}/props' -d '{\"props:\":{\"search_index\":\"${index}\"}}'",
     refreshonly => true
   }
 

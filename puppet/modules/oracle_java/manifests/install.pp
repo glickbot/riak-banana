@@ -12,6 +12,7 @@ class oracle_java::install inherits oracle_java {
     command => "wget -O ${staging_package} --no-cookies --no-check-certificate --header 'Cookie: ${accept_cookie}' '${download_url}'",
     creates => "${staging_package}",
     path => ['/usr/local/bin','/usr/bin', '/bin','/usr/local/sbin','/usr/sbin','/sbin'],
+    timeout => 0, #for the carrier pidgeon webs
   } ~>
 
   exec { 'extract java':
