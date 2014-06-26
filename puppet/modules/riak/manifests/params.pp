@@ -15,7 +15,7 @@ class riak::params {
     'Debian': {
       if defined($package_url) {
         $stage_package = true
-        $package_real_source = '/tmp/riak.deb'
+        $package_real_source = '/vagrant/files/riak.deb'
         $package_real_provider = 'dpkg'
       } else {
         $package_real_provider = $package_provider

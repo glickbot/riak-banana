@@ -10,9 +10,10 @@ class profile::base (
 		system => true
 	}
      class { '::riak':
-     	#package_url => 'http://s3.amazonaws.com/downloads.basho.com/riak/2.0/2.0.0beta1/ubuntu/precise/riak_2.0.0beta1-1_amd64.deb',
-        package_url => 'http://s3.amazonaws.com/builds.basho.com/riak/develop/2.0.0beta7/ubuntu/precise/riak_2.0.0beta7-1_amd64.deb',
-        riak_conf => { 
+     	  #package_url => 'http://s3.amazonaws.com/downloads.basho.com/riak/2.0/2.0.0beta1/ubuntu/precise/riak_2.0.0beta1-1_amd64.deb',
+        #package_url => 'http://s3.amazonaws.com/builds.basho.com/riak/develop/2.0.0beta7/ubuntu/precise/riak_2.0.0beta7-1_amd64.deb',
+				package_url => 'http://s3.amazonaws.com/builds.basho.com/riak/jem-source-default-scripts/2.0.0beta7-3-gb9a1ee9/ubuntu/precise/riak_2.0.0beta7-c9b9d12d-1_amd64.deb',
+        riak_conf => {
      	  ring_size => { value => 64 },
      	  search => { value => on },
      	  nodename => { value => "riak@${::fqdn}" },
