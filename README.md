@@ -16,14 +16,13 @@ Installs banana
 
 #### Usage:
 
-requires: puppet 3, https://github.com/rodjek/librarian-puppet, vagrant
+requires: vagrant ( you shouldn't need to have puppet or librarian-puppet installed anymore )
 
-Right now only works on ubuntu
+Right now only works with ubuntu guests
 
 ```
 git clone https://github.com/glickbot/riak-banana
 cd riak-banana
-librarian-puppet install
 vagrant up
 ssh-with-fwds
 ```
