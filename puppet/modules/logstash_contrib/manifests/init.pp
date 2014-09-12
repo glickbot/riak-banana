@@ -7,8 +7,6 @@ class logstash_contrib (
 		$plugin_dir = $logstash_contrib::params::plugin_dir
 	) inherits logstash_contrib::params {
 
-	require logstash
-
 	anchor { 'logstash_contrib::begin': } ->
 	class { '::logstash_contrib::install': } ->
 	anchor { 'logstash_contrib::end': }

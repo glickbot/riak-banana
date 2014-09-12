@@ -1,34 +1,29 @@
 class riak::params {
-  $package_name = [ 'riak' ]
+
   $package_source = undef
-  $package_ensure = undef
-  $package_version = undef
-  $package_provider = undef
   $package_url = undef
-  $service_manage = true
-  $service_name = 'riak'
-  $service_ensure = 'running'
+  $package_version = '2.0.0-1'
+  $repo_manage = true
+  $service_manage = false
   $service_enable = true
+  $service_ensure = 'running'
   $riak_conf = {}
+  $service_name = 'riak'
+  $package_provider = undef
+  $package_temp_dir = "/tmp"
+  $package_ensure = undef
+  $package_name = [ 'riak' ]
+  $ulimit = 65536
 
   case $::osfamily {
-    'Debian': {
-      if defined($package_url) {
-        $stage_package = true
-        $package_real_source = '/vagrant/files/riak.deb'
-        $package_real_provider = 'dpkg'
-      } else {
-        $package_real_provider = $package_provider
-      }
+   'Debian': {
+      $package_type = "deb"
     }
-#TODO:
-#      'RedHat': {
-#         $stage_package = false
-#         $package_real_source = $package_url
-#         $package_real_provider = $package_provider
-#      }
+    'RedHat': {
+      $package_type = "rpm"
+    }
     default: {
-      fail("The ${module_name} module is not supported on an ${::osfamily} based system.")
+      fail("This ${module_name} module is not supported on an ${::osfamily} based system.")
     }
   }
 }

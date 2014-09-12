@@ -1,0 +1,8 @@
+forge "https://forgeapi.puppetlabs.com"
+
+mod 'puppetlabs/stdlib'
+mod 'puppetlabs/apt'
+mod 'puppetlabs/inifile'
+mod 'ispavailability/file_concat'
+mod 'computology/packagecloud'
+mod 'elasticsearch/logstash', :git => 'https://github.com/elasticsearch/puppet-logstash.git'

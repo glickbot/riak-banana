@@ -1,0 +1,2 @@
+:yaml:
+  :datadir: /vagrant/puppet/hiera

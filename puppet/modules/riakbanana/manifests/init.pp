@@ -5,15 +5,15 @@ class riakbanana (
 
 	) inherits riakbanana::params {
 
-	require oracle_java
-	require riak
 
 	Exec {
 		path => ['/usr/local/bin','/usr/bin', '/bin','/usr/local/sbin','/usr/sbin','/sbin']
 	}
 
 	anchor { 'riakbanana::begin': } ->
-	class { '::riakbanana::install': } ->
+	class { '::riakbanana::install':
+		require => Service['riak']
+	} ->
 	class { '::riakbanana::config': } ->
 	anchor { 'riakbanana::end': }
 }

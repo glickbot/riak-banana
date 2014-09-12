@@ -1,0 +1,21 @@
+#### YAML ####
+
+profile::rihanna::client::riak_host: rihanna01
+profile::rihanna::client::riak_port: 8098
+
+riak::service_manage: true
+riak::riak_conf:
+  ring_size:
+    value: 64
+  search:
+    value: "on"
+  nodename:
+    value: "riak@%{::fqdn}"
+  listener.http.internal:
+    ensure: absent
+  listener.http.all:
+    value: "0.0.0.0:8098"
+  listener.protobuf.internal:
+    ensure: absent
+  listener.protobuf.all:
+    value: '0.0.0.0:8087'

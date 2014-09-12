@@ -19,8 +19,7 @@ class oracle_java::install inherits oracle_java {
     command => "tar -xzf ${staging_package}",
     cwd => "${jvm_dir}",
     creates => "${jvm_dir}/${java_version}",
-    require => [File['jvm directory']],
-    refreshonly => true
+    require => [File['jvm directory']]
   } ~>
 
   exec { 'fix perms':
