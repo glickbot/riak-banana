@@ -1,5 +1,4 @@
 *.lock
-files/*
 puppet/modules/apt/*
 puppet/modules/file_concat/*
 puppet/modules/inifile/*
