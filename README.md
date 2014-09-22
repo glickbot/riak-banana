@@ -3,6 +3,15 @@ riak-banana
 
 Riak2.0 + LucidWorks/banana
 
+#### Status: WIP
+
+#####Issues:
+- race condition during 'vagrant up', need to run 'vagrant provision' after
+- uses ugly 'files' directory, referencing "/vagrant/files" in puppet modules, need to clean up
+- hitting local solr instead of Riak solr query interface, due to Banana requesting Solr Admin API calls
+- dashboards should be stored in Riak
+- actual entry values should be pulled from Riak instead of Solr
+
 #### Notes
 The goal is to hook in LucidWorks/banana into Riak2.0's solr interface, use Riak to store dashboards, etc, and riak to submit log data.
 
@@ -16,9 +25,9 @@ Installs banana
 
 #### Usage:
 
-requires: vagrant ( you shouldn't need to have puppet or librarian-puppet installed anymore )
+requires: vagrant
 
-Right now only works with ubuntu guests
+Vagrant box is based on Ubuntu
 
 ```
 git clone https://github.com/glickbot/riak-banana
