@@ -54,7 +54,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |vagrant|
       config.vm.provision "shell", inline: "echo \"#{hosts}\" > /etc/hosts"
       config.vm.provision "shell", inline: "apt-get install -y ruby-dev git"
       config.vm.provision "shell", inline: "gem install librarian-puppet"
-      config.vm.provision "shell", inline: "cd /vagrant/puppet && librarian-puppet install"
+      config.vm.provision "shell", inline: "rsync -rtl /vagrant/puppet /opt/"
+      config.vm.provision "shell", inline: "cd /opt/puppet && librarian-puppet install"
+      config.vm.provision "shell", inline: "rm -r -f /opt/puppet/.tmp"
+      config.vm.provision "shell", inline: "rsync -rtl /opt/puppet/ /vagrant/puppet"
 
       config.vm.provision :puppet do |puppet|
          puppet.manifests_path = "puppet/manifests"
