@@ -6,9 +6,12 @@ Riak2.0 + LucidWorks/banana
 #### Status: WIP
 
 #####Issues:
-- race condition during 'vagrant up', need to run 'vagrant provision' after
+- nginx & logstash need to be restarted appropriately via puppet
+- just the riak.rb logstash plugin should be installed via the logstash::plugin directive
+- hacky librarian-puppet issues due to windows /vagrant mounts should be worked around
+- ~~race condition during 'vagrant up', need to run 'vagrant provision' after~~
 - uses ugly 'files' directory, referencing "/vagrant/files" in puppet modules, need to clean up
-- hitting local solr instead of Riak solr query interface, due to Banana requesting Solr Admin API calls
+- ~~hitting local solr instead of Riak solr query interface, due to Banana requesting Solr Admin API calls~~
 - dashboards should be stored in Riak
 - actual entry values should be pulled from Riak instead of Solr
 
@@ -33,9 +36,9 @@ Vagrant box is based on Ubuntu
 git clone https://github.com/glickbot/riak-banana
 cd riak-banana
 vagrant up
-ssh-with-fwds
 ```
 
-Navigate to ```http://localhost:8093/internal_solr/banana/src/index.html```
+( nginx needs to be restarted on rihanna01 )
+( logstash needs to be restarted on client02 )
 
-Use ```http://localhost:8093/internal_solr``` for solr webapp
+Navigate to ```http://http://10.42.0.6/```
