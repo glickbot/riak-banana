@@ -2,7 +2,7 @@ class riak::params {
 
   $package_source = undef
   $package_url = undef
-  $package_version = '2.0.0-1'
+  $package_version = '2.0.4-1'
   $repo_manage = true
   $service_manage = false
   $service_enable = true

@@ -23,34 +23,22 @@ class riakbanana::install inherits riakbanana {
 
 
   exec { 'install schema':
-    command => "curl -XPUT -i '${riak_url}/search/schema/${index}' -H 'content-type: application/xml' --data-binary @/vagrant/files/logstash_logs.xml",
+    command => "curl -XPUT '${riak_url}/search/schema/${index}' -H 'content-type: application/xml' --data-binary @/vagrant/files/logstash_logs.xml",
     unless => "curl '${riak_url}/search/schema/${index}' -f > /dev/null 2>&1",
   }
 
   exec { 'install index':
-    command => "curl -XPUT -i '${riak_url}/search/index/${index}' -H 'content-type: application/json' -d '{\"schema\":\"${index}\"}'",
+    command => "curl -XPUT '${riak_url}/search/index/${index}' -H 'content-type: application/json' -d '{\"schema\":\"${index}\"}'",
     unless => "curl '${riak_url}/search/index/${index}' -f > /dev/null 2>&1",
     require => Exec['install schema'],
-    notify => Exec['configure bucket']
-    #notify => Exec['create bucket-type']
+    # notify => Exec['configure bucket']
+    # notify => Exec['create bucket-type']
   }
-
-  #exec { 'create bucket-type':
-	#    command => "riak-admin bucket-type create data '{\"props\":{}}'",
-  #    unless => "riak-admin bucket-type status data", # bucket-type returns reverse error code
-	#    notify => Exec['activate bucket-type'],
-  #    refreshonly => true
-  #}
-
-  #exec { 'activate bucket-type':
-  #  command => "riak-admin bucket-type activate data",
-  #  notify => Exec['configure bucket'],
-  #  refreshonly => true
-  #}
-
   exec { 'configure bucket':
-    command => "curl -i -H 'content-type: application/json' -XPUT '${riak_url}/buckets/${index}/props' -d '{\"props:\":{\"search_index\":\"${index}\"}}'",
-    refreshonly => true
+    command => "curl -H 'content-type: application/json' -XPUT '${riak_url}/buckets/${index}/props' -d '{\"props\":{\"search_index\":\"${index}\"}}'",
+    unless => "curl -s '${riak_url}/buckets/${index}/props' | grep '\"search_index\":\"${index}\"' > /dev/null 2>&1",
+    require => Exec['install index']
+    # refreshonly => true
   }
 
   #exec { 'configure bucket-type':
