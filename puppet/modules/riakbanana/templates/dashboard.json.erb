@@ -365,11 +365,11 @@
     "dropdown_collections": false
   },
   "solr": {
-    "server": "http://10.42.0.6/solr/",
-    "core_name": "logstash_logs",
+    "server": "http://<%= @banana_host %>:<%= @banana_port %>/solr/",
+    "core_name": "<%= @index %>",
     "core_list": [
       "banana-int",
-      "logstash_logs"
+      "<%= @index %>"
     ],
     "global_params": "&df=message"
   }

@@ -2,30 +2,22 @@ class profile::rihanna::client inherits profile::base {
 
 	include apt
 
-	stage { "pre":
-		before => Stage["logstash"]
-	}
-
-	stage { "logstash":
-
-	}
-
   class { '::oracle_java':
-		stage => pre
-	}
+	} ~>
 
 	class { '::logstash':
-		stage => logstash,
 		manage_repo => true,
 		repo_version => '1.4'
 	} ~>
 
 	class { '::logstash_contrib':
-		stage => logstash
+
 	}
 
 	logstash::configfile { 'logstash-riak':
-		content => template('profile/logstash-riak.erb')
+		content => template('profile/logstash-riak.erb'),
+		notify => Service['logstash'],
+		require => Package['logstash']
 	}
 
 	file { 'rsyslog config':

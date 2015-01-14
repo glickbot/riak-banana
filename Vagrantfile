@@ -51,23 +51,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |vagrant|
          vb.customize ["modifyvm", :id, "--memory", "2048"]
       end
 
+      # Using VMs environment to build/install puppet modules via librarian
       config.vm.provision "shell", inline: "echo \"#{hosts}\" > /etc/hosts"
       config.vm.provision "shell", inline: "apt-get install -y ruby-dev git"
       config.vm.provision "shell", inline: "gem install librarian-puppet"
-      config.vm.provision "shell", inline: "rsync -rtl /vagrant/puppet /opt/"
+      # /vagrant mounts on provisioned VMs have weird permissions on windows HVs
+      #    so we're running puppet apply locally on the VMs
+      #    this could also be put in the background to speed up deployment
+      config.vm.provision "shell", inline: "rsync -rtl /vagrant/puppet /opt/ --exclude '.*'"
       config.vm.provision "shell", inline: "cd /opt/puppet && librarian-puppet install"
-      config.vm.provision "shell", inline: "rm -r -f /opt/puppet/.tmp"
-      config.vm.provision "shell", inline: "rsync -rtl /opt/puppet/ /vagrant/puppet"
-
-      config.vm.provision :puppet do |puppet|
-         puppet.manifests_path = "puppet/manifests"
-         puppet.manifest_file  = "site.pp"
-         puppet.module_path = "puppet/modules"
-         puppet.options = [
-         '--verbose',
-         '--debug',
-         '--hiera_config /vagrant/puppet/hiera.yaml']
-      end
+      config.vm.provision "shell", inline: "puppet apply -l /var/log/puppet/provision.log --modulepath=/opt/puppet/modules --verbose --debug --hiera_config /opt/puppet/hiera.yaml /opt/puppet/manifests/site.pp"
     end
   end
 end

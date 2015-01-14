@@ -3,6 +3,8 @@
 profile::rihanna::client::riak_host: rihanna01
 profile::rihanna::client::riak_port: 8098
 
+profile::rihanna::server::banana_host: "%{::ipaddress_eth1}"
+
 riak::service_manage: true
 riak::riak_conf:
   ring_size:

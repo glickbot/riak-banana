@@ -1,4 +1,6 @@
-class profile::rihanna::server inherits profile::base {
+class profile::rihanna::server (
+	$banana_host = localhost
+) inherits profile::base {
 
 	stage { "pre":
 		before => Stage["riak"]
@@ -18,6 +20,7 @@ class profile::rihanna::server inherits profile::base {
   }
 
   class { '::riakbanana':
+		banana_host => $banana_host,
 		stage => riakbanana
 	}
 
