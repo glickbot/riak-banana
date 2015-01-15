@@ -27,10 +27,14 @@ server {
 	# Make site accessible from http://localhost/
 	server_name localhost;
 
-	location /solr {
-		location /solr/query {
-                        rewrite /solr(.*) /search$1 break;
-			proxy_pass http://<%= @riak_host %>:<%= @riak_port %>;
+	location ^~ /solr/ {
+		proxy_set_header Referer "";
+		location ~* /solr/query {
+      		rewrite /solr(.*) /search$1 break;
+					proxy_pass http://<%= @riak_host %>:<%= @riak_port %>;
+		}
+		location ~* /solr/[^/]*/select {
+					proxy_pass http://<%= @riak_host %>:<%= @riak_port %>;
 		}
 		rewrite /solr(.*) /internal_solr$1 break;
 		proxy_pass http://<%= @riak_host %>:<%= @solr_port %>;

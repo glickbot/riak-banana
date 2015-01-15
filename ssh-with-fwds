@@ -1,3 +1,0 @@
-#!/bin/bash
-
-vagrant ssh rihanna01 -- -L8080:localhost:80 -L8093:localhost:8093

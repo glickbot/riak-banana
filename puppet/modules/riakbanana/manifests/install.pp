@@ -35,8 +35,13 @@ class riakbanana::install inherits riakbanana {
 
 ### Riak Solr Schema & Bucket
 
+  file { 'schema file':
+    path => "/tmp/riakbanana_schema.xml",
+    content => template("riakbanana/riakbanana_schema.xml.erb"),
+    ensure => present
+  } ->
   exec { 'install schema':
-    command => "curl -XPUT '${riak_url}/search/schema/${index}' -H 'content-type: application/xml' --data-binary @/vagrant/files/logstash_logs.xml",
+    command => "curl -XPUT '${riak_url}/search/schema/${index}' -H 'content-type: application/xml' --data-binary @/tmp/riakbanana_schema.xml",
     unless => "curl '${riak_url}/search/schema/${index}' -f > /dev/null 2>&1",
   } ->
   exec { 'install index':
@@ -44,7 +49,7 @@ class riakbanana::install inherits riakbanana {
     unless => "curl -s '${riak_url}/search/index/${index}' -f > /dev/null 2>&1",
   } ->
   exec { 'wait_for_index':
-    command => "curl -f '${riak_url}/search/schema/${index}' > /dev/null 2>&1",
+    command => "curl -f '${riak_url}/search/index/${index}' > /dev/null 2>&1",
     tries => 20,
     try_sleep => 5,
   } ->
